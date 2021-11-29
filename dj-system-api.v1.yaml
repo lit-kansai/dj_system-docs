@@ -18,16 +18,9 @@ paths:
       summary: ルーム作成
       tags:
         - room
-      parameters:
-        - name: "username"
-          in: "query"
-          description: "The user name for login"
-          required: true
-          schema:
-            type: "string"
       responses:
         "200":
-          description: "successful operation"
+          description: "成功"
   /room/all:
     get:
       summary: 全ルーム情報取得（管理可能なルームのみ）
@@ -35,37 +28,65 @@ paths:
         - room
       responses:
         "200":
-          description: "successful operation"
+          description: "成功"
   /room/{roomID}:
     get:
       summary: ルーム個別情報表示
       tags:
         - room
+      parameters:
+        - name: roomID
+          in: path
+          description: 必ず1つのルームIDを送信する
+          required: true
+          schema:
+            type: string
       responses:
         "200":
-          description: "successful operation"
+          description: "成功"
     put:
       summary: ルーム個別情報更新
       tags:
         - room
+      parameters:
+        - name: roomID
+          in: path
+          description: 必ず1つのルームIDを送信する
+          required: true
+          schema:
+            type: string
       responses:
         "200":
-          description: "successful operation"
+          description: "成功"
     delete:
       summary: ルーム個別削除
       tags:
         - room
+      parameters:
+        - name: roomID
+          in: path
+          description: 必ず1つのルームIDを送信する
+          required: true
+          schema:
+            type: string
       responses:
         "200":
-          description: "successful operation"
+          description: "成功"
   /room/{roomID}/request:
     post:
       summary: リクエスト送信
       tags:
         - room
+      parameters:
+        - name: roomID
+          in: path
+          description: 必ず1つのルームIDを送信する
+          required: true
+          schema:
+            type: string
       responses:
         "200":
-          description: "successful operation"
+          description: "成功"
   /music/search:
     get:
       summary: 音楽リクエスト
@@ -73,7 +94,7 @@ paths:
         - music
       responses:
         "200":
-          description: "successful operation"
+          description: "成功"
   /user:
     post:
       summary: ユーザー（管理者 & MC）を作成
@@ -81,7 +102,7 @@ paths:
         - user
       responses:
         "200":
-          description: "successful operation"
+          description: "成功"
   /user/login:
     get:
       summary: ユーザー（管理者 & MC）ログイン
@@ -89,7 +110,7 @@ paths:
         - user
       responses:
         "200":
-          description: "successful operation"
+          description: "成功"
         "400":
           description: ログインが無効
   /user/logout:
@@ -99,29 +120,50 @@ paths:
         - user
       responses:
         "200":
-          description: "successful operation"
+          description: "成功"
   /user/{userID}:
     get:
       summary: ユーザー（管理者 & MC）情報取得
       tags:
         - user
+      parameters:
+        - name: userID
+          in: path
+          description: 必ず1つのユーザーIDを送信する
+          required: true
+          schema:
+            type: string
       responses:
         "200":
-          description: "successful operation"
+          description: "成功"
     put:
       summary: ユーザー（管理者 & MC）情報更新
       tags:
         - user
+      parameters:
+        - name: userID
+          in: path
+          description: 必ず1つのユーザーIDを送信する
+          required: true
+          schema:
+            type: string
       responses:
         "200":
-          description: "successful operation"
+          description: "成功"
     delete:
       summary: ユーザー（管理者 & MC）削除
       tags:
         - user
+      parameters:
+        - name: userID
+          in: path
+          description: 必ず1つのユーザーIDを送信する
+          required: true
+          schema:
+            type: string
       responses:
         "204":
-          description: "successful operation"
+          description: "成功"
         "401":
           description: "アクセス権限が不足（MCが自分ではないアカウントを削除しようとしている / 管理者でない）"
         "404":
@@ -133,7 +175,7 @@ paths:
         - user
       responses:
         "200":
-          description: "successful operation"
+          description: "成功"
 components:
   schemas: {}
   securitySchemes: {}
