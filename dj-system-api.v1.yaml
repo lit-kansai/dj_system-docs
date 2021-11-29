@@ -1,0 +1,139 @@
+openapi: 3.0.0
+info:
+  title: DJ System API
+  version: '1.0'
+  description: MC支援サービス「DJ System」用API
+servers:
+  - url: 'http://localhost:3000'
+tags:
+  - name: room
+    description: ルームの管理
+  - name: music
+    description: 音楽サービスとの連携
+  - name: user
+    description: ユーザー（管理者 & MC）の管理
+paths:
+  /room:
+    post:
+      summary: ルーム作成
+      tags:
+        - room
+      parameters:
+        - name: "username"
+          in: "query"
+          description: "The user name for login"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+  /room/all:
+    get:
+      summary: 全ルーム情報取得（管理可能なルームのみ）
+      tags:
+        - room
+      responses:
+        "200":
+          description: "successful operation"
+  /room/{roomID}:
+    get:
+      summary: ルーム個別情報表示
+      tags:
+        - room
+      responses:
+        "200":
+          description: "successful operation"
+    put:
+      summary: ルーム個別情報更新
+      tags:
+        - room
+      responses:
+        "200":
+          description: "successful operation"
+    delete:
+      summary: ルーム個別削除
+      tags:
+        - room
+      responses:
+        "200":
+          description: "successful operation"
+  /room/{roomID}/request:
+    post:
+      summary: リクエスト送信
+      tags:
+        - room
+      responses:
+        "200":
+          description: "successful operation"
+  /music/search:
+    get:
+      summary: 音楽リクエスト
+      tags:
+        - music
+      responses:
+        "200":
+          description: "successful operation"
+  /user:
+    post:
+      summary: ユーザー（管理者 & MC）を作成
+      tags:
+        - user
+      responses:
+        "200":
+          description: "successful operation"
+  /user/login:
+    get:
+      summary: ユーザー（管理者 & MC）ログイン
+      tags:
+        - user
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: ログインが無効
+  /user/logout:
+    get:
+      summary: ユーザー（管理者 & MC）ログアウト
+      tags:
+        - user
+      responses:
+        "200":
+          description: "successful operation"
+  /user/{userID}:
+    get:
+      summary: ユーザー（管理者 & MC）情報取得
+      tags:
+        - user
+      responses:
+        "200":
+          description: "successful operation"
+    put:
+      summary: ユーザー（管理者 & MC）情報更新
+      tags:
+        - user
+      responses:
+        "200":
+          description: "successful operation"
+    delete:
+      summary: ユーザー（管理者 & MC）削除
+      tags:
+        - user
+      responses:
+        "204":
+          description: "successful operation"
+        "401":
+          description: "アクセス権限が不足（MCが自分ではないアカウントを削除しようとしている / 管理者でない）"
+        "404":
+          description: "既に削除済み or ユーザーが不明"
+  /user/link/spotify:
+    get:
+      summary: Spotifyとの連携
+      tags:
+        - user
+      responses:
+        "200":
+          description: "successful operation"
+components:
+  schemas: {}
+  securitySchemes: {}
