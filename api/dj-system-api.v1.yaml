@@ -18,6 +18,8 @@ paths:
       summary: ルーム作成
       tags:
         - room
+      security:
+        - ApiTokenAuth: []
       requestBody:
         description: created_atとupdated_atは自動設定
         content:
@@ -251,6 +253,8 @@ paths:
       summary: Spotifyとの連携
       tags:
         - user
+      security:
+        - ApiTokenAuth: []
       responses:
         "200":
           description: Success
