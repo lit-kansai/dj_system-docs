@@ -158,11 +158,11 @@ paths:
               schema:
                 type: object
                 properties:
-                  redirect_uri:
+                  redirect_url:
                     type: string
                     description: Googleログインへの遷移URL
   /user/loggedInGoogle:
-    # TODO: parametersでGoogleログイン後に帰ってきたクエリを渡す。responseでapi_tokenを返す
+    # TODO: parametersでGoogleログイン後に帰ってきたクエリを渡す。
     post:
       summary: Googleログイン後に呼び出す。クエリなどをサーバー側に渡す。
       tags:
@@ -170,6 +170,14 @@ paths:
       responses:
         "200":
           description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  api_token:
+                    type: string
+                    description: APIトークン
   /user/{userId}:
     # TODO: headerのauthに、api_tokenを渡す
     get:
@@ -181,6 +189,10 @@ paths:
       responses:
         "200":
           description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
         "401":
           $ref: '#/components/responses/Unauthorized'
         "404":
@@ -191,6 +203,12 @@ paths:
         - user
       parameters:
         - $ref: '#/components/parameters/UserId'
+      requestBody:
+        description: created_atとupdated_atは自動設定
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
       responses:
         "200":
           description: Success
@@ -205,8 +223,8 @@ paths:
       parameters:
         - $ref: '#/components/parameters/UserId'
       responses:
-        "204":
-          $ref: '#/components/responses/NoContent'
+        "200":
+          $ref: '#/components/responses/Success'
         "401":
           $ref: '#/components/responses/Unauthorized'
         "404":
@@ -325,16 +343,15 @@ components:
     User:
       type: object
       properties:
-        id:
-          type: string
-          description: ユーザー（管理者 or MC）のID
         name:
           type: string
           description: ユーザー（管理者 or MC）の名前
+        avatar_url:
+          type: string
+          description: ユーザー（管理者 or MC）のアバター画像のURL
         is_admin:
           type: boolean
           description: ユーザー（管理者 or MC）が管理者かどうか
-        # MEMO: Googleログインの認証情報をどう持つか？
     Error:
       type: object
       properties:
@@ -364,13 +381,13 @@ components:
       schema:
         type: string
   # Security scheme definitions (see Authentication)
-  # securitySchemes:
-  #   ...
   # Reusable request bodies
   # requestBodies:
   #   ...
   # Reusable responses, such as 401 Unauthorized or 400 Bad Request
   responses:
+    Success:
+      description: Success
     NoContent:
       description: No Content
       content:
