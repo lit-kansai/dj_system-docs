@@ -13,6 +13,7 @@ tags:
   - name: user
     description: ユーザー（管理者 & MC）の管理
 paths:
+  # TODO: parametersで必要情報を渡す。responseで、MC用のURLを返す
   /room:
     post:
       summary: ルーム作成
@@ -20,7 +21,9 @@ paths:
         - room
       responses:
         "200":
-          description: "成功"
+          description: 成功
+      security:
+        - api_key: []
   /room/all:
     get:
       summary: 全ルーム情報取得（管理可能なルームのみ）
@@ -28,7 +31,7 @@ paths:
         - room
       responses:
         "200":
-          description: "成功"
+          description: 成功
   /room/{roomID}:
     get:
       summary: ルーム個別情報表示
@@ -43,7 +46,7 @@ paths:
             type: string
       responses:
         "200":
-          description: "成功"
+          description: 成功
     put:
       summary: ルーム個別情報更新
       tags:
@@ -57,7 +60,7 @@ paths:
             type: string
       responses:
         "200":
-          description: "成功"
+          description: 成功
     delete:
       summary: ルーム個別削除
       tags:
@@ -71,7 +74,11 @@ paths:
             type: string
       responses:
         "200":
-          description: "成功"
+          description: 成功
+        "400":
+          description: api_keyが有効ではない
+        "404":
+          description: ルームが存在しない
   /room/{roomID}/request:
     post:
       summary: リクエスト送信
@@ -86,15 +93,16 @@ paths:
             type: string
       responses:
         "200":
-          description: "成功"
+          description: 成功
   /music/search:
+    # TODO: 内部RoomID・検索ワードを送信
     get:
       summary: 音楽リクエスト
       tags:
         - music
       responses:
         "200":
-          description: "成功"
+          description: 成功
   /user:
     post:
       summary: ユーザー（管理者 & MC）を作成
@@ -102,26 +110,27 @@ paths:
         - user
       responses:
         "200":
-          description: "成功"
+          description: 成功
   /user/login:
+    # TODO: responsesで、Googleログインへの遷移URLを渡す
     get:
       summary: ユーザー（管理者 & MC）ログイン
       tags:
         - user
       responses:
         "200":
-          description: "成功"
-        "400":
-          description: ログインが無効
-  /user/logout:
-    get:
-      summary: ユーザー（管理者 & MC）ログアウト
+          description: 成功
+  /user/loggedInGoogle:
+    # TODO: parametersでGoogleログイン後に帰ってきたクエリを渡す。responseでapi_tokenを返す
+    post:
+      summary: Googleログイン後に呼び出す。クエリなどをサーバー側に渡す。
       tags:
         - user
       responses:
         "200":
-          description: "成功"
+          description: 成功
   /user/{userID}:
+    # TODO: headerのauthに、api_tokenを渡す
     get:
       summary: ユーザー（管理者 & MC）情報取得
       tags:
@@ -135,7 +144,7 @@ paths:
             type: string
       responses:
         "200":
-          description: "成功"
+          description: 成功
     put:
       summary: ユーザー（管理者 & MC）情報更新
       tags:
@@ -149,7 +158,7 @@ paths:
             type: string
       responses:
         "200":
-          description: "成功"
+          description: 成功
     delete:
       summary: ユーザー（管理者 & MC）削除
       tags:
@@ -163,7 +172,7 @@ paths:
             type: string
       responses:
         "204":
-          description: "成功"
+          description: 成功
         "401":
           description: "アクセス権限が不足（MCが自分ではないアカウントを削除しようとしている / 管理者でない）"
         "404":
@@ -175,7 +184,4 @@ paths:
         - user
       responses:
         "200":
-          description: "成功"
-components:
-  schemas: {}
-  securitySchemes: {}
+          description: 成功
