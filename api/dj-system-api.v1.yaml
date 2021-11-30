@@ -320,6 +320,19 @@ components:
           description: メッセージ
       required:
         - musics
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ユーザー（管理者 or MC）のID
+        name:
+          type: string
+          description: ユーザー（管理者 or MC）の名前
+        is_admin:
+          type: boolean
+          description: ユーザー（管理者 or MC）が管理者かどうか
+        # MEMO: Googleログインの認証情報をどう持つか？
     Error:
       type: object
       properties:
