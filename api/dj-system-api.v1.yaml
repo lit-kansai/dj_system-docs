@@ -39,21 +39,6 @@ paths:
                     description: 作成したルームのMCページURL
         "401":
           $ref: '#/components/responses/Unauthorized'
-  /music/search:
-    # TODO: 内部RoomID・検索ワードを送信
-    get:
-      summary: 音楽リクエスト
-      tags:
-        - music
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                searchWord:
-                  type: string
-                  description: 検索ワード
   /room/all:
     get:
       summary: 全ルーム情報取得（管理可能なルームのみ）
@@ -144,11 +129,19 @@ paths:
         "404":
           $ref: '#/components/responses/NotFound'
   /music/search:
-    # TODO: 内部RoomID・検索ワードを送信
     get:
       summary: 音楽リクエスト
       tags:
         - music
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                searchWord:
+                  type: string
+                  description: 検索ワード
       responses:
         "200":
           description: Success
