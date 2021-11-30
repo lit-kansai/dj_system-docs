@@ -21,7 +21,7 @@ paths:
         - room
       responses:
         "200":
-          description: 成功
+          description: Success
       security:
         - api_key: []
   /room/all:
@@ -31,7 +31,7 @@ paths:
         - room
       responses:
         "200":
-          description: 成功
+          description: Success
   /room/{roomID}:
     get:
       summary: ルーム個別情報表示
@@ -46,7 +46,7 @@ paths:
             type: string
       responses:
         "200":
-          description: 成功
+          description: Success
     put:
       summary: ルーム個別情報更新
       tags:
@@ -60,7 +60,7 @@ paths:
             type: string
       responses:
         "200":
-          description: 成功
+          description: Success
     delete:
       summary: ルーム個別削除
       tags:
@@ -74,7 +74,7 @@ paths:
             type: string
       responses:
         "200":
-          description: 成功
+          description: Success
         "400":
           description: api_keyが有効ではない
         "404":
@@ -93,7 +93,7 @@ paths:
             type: string
       responses:
         "200":
-          description: 成功
+          description: Success
   /music/search:
     # TODO: 内部RoomID・検索ワードを送信
     get:
@@ -102,7 +102,7 @@ paths:
         - music
       responses:
         "200":
-          description: 成功
+          description: Success
   /user:
     post:
       summary: ユーザー（管理者 & MC）を作成
@@ -110,7 +110,7 @@ paths:
         - user
       responses:
         "200":
-          description: 成功
+          description: Success
   /user/login:
     # TODO: responsesで、Googleログインへの遷移URLを渡す
     get:
@@ -119,7 +119,7 @@ paths:
         - user
       responses:
         "200":
-          description: 成功
+          description: Success
   /user/loggedInGoogle:
     # TODO: parametersでGoogleログイン後に帰ってきたクエリを渡す。responseでapi_tokenを返す
     post:
@@ -128,7 +128,7 @@ paths:
         - user
       responses:
         "200":
-          description: 成功
+          description: Success
   /user/{userID}:
     # TODO: headerのauthに、api_tokenを渡す
     get:
@@ -144,7 +144,7 @@ paths:
             type: string
       responses:
         "200":
-          description: 成功
+          description: Success
     put:
       summary: ユーザー（管理者 & MC）情報更新
       tags:
@@ -158,7 +158,7 @@ paths:
             type: string
       responses:
         "200":
-          description: 成功
+          description: Success
     delete:
       summary: ユーザー（管理者 & MC）削除
       tags:
@@ -172,11 +172,11 @@ paths:
             type: string
       responses:
         "204":
-          description: 成功
+          description: Success
         "401":
-          description: "アクセス権限が不足（MCが自分ではないアカウントを削除しようとしている / 管理者でない）"
+          $ref: '#/components/responses/Unauthorized'
         "404":
-          description: "既に削除済み or ユーザーが不明"
+          $ref: '#/components/responses/NotFound'
   /user/link/spotify:
     get:
       summary: Spotifyとの連携
@@ -184,4 +184,52 @@ paths:
         - user
       responses:
         "200":
-          description: 成功
+          description: Success
+components:
+  # Reusable schemas (data models)
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message
+  # Reusable path, query, header and cookie parameters
+  # parameters:
+    # ...
+  # Security scheme definitions (see Authentication)
+  # securitySchemes:
+  #   ...
+  # Reusable request bodies
+  # requestBodies:
+  #   ...
+  # Reusable responses, such as 401 Unauthorized or 400 Bad Request
+  responses:
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  # Reusable response headers
+  # headers:
+  #   ...
+  # Reusable examples
+  # examples:
+  #   ...
+  # Reusable links
+  # links:
+  #   ...
+  # Reusable callbacks
+  # callbacks:
+  #   ...
