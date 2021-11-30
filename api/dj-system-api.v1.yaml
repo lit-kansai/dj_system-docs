@@ -157,7 +157,7 @@ paths:
       tags:
         - user
       parameters:
-        - $ref: '#/components/parameters/RoomId'
+        - $ref: '#/components/parameters/UserId'
       responses:
         "200":
           description: Success
@@ -170,7 +170,7 @@ paths:
       tags:
         - user
       parameters:
-        - $ref: '#/components/parameters/RoomId'
+        - $ref: '#/components/parameters/UserId'
       responses:
         "200":
           description: Success
@@ -183,7 +183,7 @@ paths:
       tags:
         - user
       parameters:
-        - $ref: '#/components/parameters/RoomId'
+        - $ref: '#/components/parameters/UserId'
       responses:
         "204":
           $ref: '#/components/responses/NoContent'
@@ -318,6 +318,13 @@ components:
       name: roomId
       in: path
       description: ルームのID（必ず1つのルームIDを送信する）
+      required: true
+      schema:
+        type: string
+    UserId:
+      name: userId
+      in: path
+      description: ユーザーのID（必ず1つのユーザーIDを送信する）
       required: true
       schema:
         type: string
