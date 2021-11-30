@@ -28,6 +28,16 @@ paths:
         "200":
           # responseで、MC用のURLを返す
           description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    format: uri
+                    description: 作成したルームのMCページURL
+
         "401":
           $ref: '#/components/responses/Unauthorized'
       security:
@@ -40,6 +50,12 @@ paths:
       responses:
         "200":
           description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Room'
         "204":
           $ref: '#/components/responses/NoContent'
         "401":
@@ -54,6 +70,10 @@ paths:
       responses:
         "200":
           description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
         "404":
           $ref: '#/components/responses/NotFound'
     put:
