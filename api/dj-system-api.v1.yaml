@@ -22,6 +22,8 @@ paths:
       responses:
         "200":
           description: Success
+        "401":
+          $ref: '#/components/responses/Unauthorized'
       security:
         - api_key: []
   /room/all:
@@ -32,6 +34,10 @@ paths:
       responses:
         "200":
           description: Success
+        "204":
+          $ref: '#/components/responses/NoContent'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
   /room/{roomID}:
     get:
       summary: ルーム個別情報表示
@@ -47,6 +53,8 @@ paths:
       responses:
         "200":
           description: Success
+        "404":
+          $ref: '#/components/responses/NotFound'
     put:
       summary: ルーム個別情報更新
       tags:
@@ -61,6 +69,10 @@ paths:
       responses:
         "200":
           description: Success
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "404":
+          $ref: '#/components/responses/NotFound'
     delete:
       summary: ルーム個別削除
       tags:
@@ -75,10 +87,10 @@ paths:
       responses:
         "200":
           description: Success
-        "400":
-          description: api_keyが有効ではない
+        "401":
+          $ref: '#/components/responses/Unauthorized'
         "404":
-          description: ルームが存在しない
+          $ref: '#/components/responses/NotFound'
   /room/{roomID}/request:
     post:
       summary: リクエスト送信
@@ -94,6 +106,8 @@ paths:
       responses:
         "200":
           description: Success
+        "404":
+          $ref: '#/components/responses/NotFound'
   /music/search:
     # TODO: 内部RoomID・検索ワードを送信
     get:
@@ -103,6 +117,10 @@ paths:
       responses:
         "200":
           description: Success
+        "204":
+          description: 検索結果が0件
+        "401":
+          $ref: '#/components/responses/Unauthorized'
   /user:
     post:
       summary: ユーザー（管理者 & MC）を作成
@@ -119,6 +137,7 @@ paths:
         - user
       responses:
         "200":
+          # TODO: URLを返す
           description: Success
   /user/loggedInGoogle:
     # TODO: parametersでGoogleログイン後に帰ってきたクエリを渡す。responseでapi_tokenを返す
@@ -145,6 +164,10 @@ paths:
       responses:
         "200":
           description: Success
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "404":
+          $ref: '#/components/responses/NotFound'
     put:
       summary: ユーザー（管理者 & MC）情報更新
       tags:
@@ -159,6 +182,10 @@ paths:
       responses:
         "200":
           description: Success
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "404":
+          $ref: '#/components/responses/NotFound'
     delete:
       summary: ユーザー（管理者 & MC）削除
       tags:
@@ -172,7 +199,7 @@ paths:
             type: string
       responses:
         "204":
-          description: Success
+          $ref: '#/components/responses/NoContent'
         "401":
           $ref: '#/components/responses/Unauthorized'
         "404":
@@ -209,6 +236,12 @@ components:
   #   ...
   # Reusable responses, such as 401 Unauthorized or 400 Bad Request
   responses:
+    NoContent:
+      description: No Content
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     NotFound:
       description: Not Found
       content:
