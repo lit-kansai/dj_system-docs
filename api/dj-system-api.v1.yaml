@@ -18,6 +18,8 @@ paths:
       summary: ルーム作成
       tags:
         - room
+      security:
+        - ApiTokenAuth: []
       requestBody:
         description: created_atとupdated_atは自動設定
         content:
@@ -37,16 +39,16 @@ paths:
                     type: string
                     format: uri
                     description: 作成したルームのMCページURL
-
         "401":
           $ref: '#/components/responses/Unauthorized'
-      security:
-        - api_key: []
+
   /room/all:
     get:
       summary: 全ルーム情報取得（管理可能なルームのみ）
       tags:
         - room
+      security:
+        - ApiTokenAuth: []
       responses:
         "200":
           description: Success
@@ -80,6 +82,8 @@ paths:
       summary: ルーム個別情報更新
       tags:
         - room
+      security:
+        - ApiTokenAuth: []
       requestBody:
         description: created_atとupdated_atは自動設定
         content:
@@ -99,6 +103,8 @@ paths:
       summary: ルーム個別削除
       tags:
         - room
+      security:
+        - ApiTokenAuth: []
       parameters:
         - $ref: '#/components/parameters/RoomId'
       responses:
@@ -184,6 +190,8 @@ paths:
       summary: ユーザー（管理者 & MC）情報取得
       tags:
         - user
+      security:
+        - ApiTokenAuth: []
       parameters:
         - $ref: '#/components/parameters/UserId'
       responses:
@@ -201,6 +209,8 @@ paths:
       summary: ユーザー（管理者 & MC）情報更新
       tags:
         - user
+      security:
+        - ApiTokenAuth: []
       parameters:
         - $ref: '#/components/parameters/UserId'
       requestBody:
@@ -220,6 +230,8 @@ paths:
       summary: ユーザー（管理者 & MC）削除
       tags:
         - user
+      security:
+        - ApiTokenAuth: []
       parameters:
         - $ref: '#/components/parameters/UserId'
       responses:
@@ -381,6 +393,12 @@ components:
       schema:
         type: string
   # Security scheme definitions (see Authentication)
+  securitySchemes:
+    ApiTokenAuth:
+      type: apiKey
+      in: header
+      name: api_token
+      description: APIトークン
   # Reusable request bodies
   # requestBodies:
   #   ...
