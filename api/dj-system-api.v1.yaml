@@ -274,9 +274,6 @@ components:
         description:
           type: string
           description: ルームの説明
-        user_id:
-          type: string
-          description: ルームの作成者のユーザー（管理者 or MC）ID
         created_at:
           type: string
           description: 作成日時
@@ -287,7 +284,6 @@ components:
         - id
         - url_name
         - room_name
-        - user_id
     RoomWithMusic:
       type: object
       properties:
