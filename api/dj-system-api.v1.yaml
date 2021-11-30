@@ -13,14 +13,20 @@ tags:
   - name: user
     description: ユーザー（管理者 & MC）の管理
 paths:
-  # TODO: parametersで必要情報を渡す。responseで、MC用のURLを返す
   /room:
     post:
       summary: ルーム作成
       tags:
         - room
+      requestBody:
+        description: created_atとupdated_atは自動設定
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Room'
       responses:
         "200":
+          # responseで、MC用のURLを返す
           description: Success
         "401":
           $ref: '#/components/responses/Unauthorized'
@@ -59,6 +65,12 @@ paths:
       summary: ルーム個別情報更新
       tags:
         - room
+      requestBody:
+        description: created_atとupdated_atは自動設定
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Room'
       parameters:
         - name: roomID
           in: path
@@ -286,8 +298,6 @@ components:
         - url_name
         - room_name
         - user_id
-        - created_at
-        - updated_at
     RoomWithMusic:
       type: object
       properties:
