@@ -150,7 +150,7 @@ paths:
       responses:
         "200":
           description: Success
-  /user/{userID}:
+  /user/{userId}:
     # TODO: headerのauthに、api_tokenを渡す
     get:
       summary: ユーザー（管理者 & MC）情報取得
