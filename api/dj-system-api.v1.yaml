@@ -117,28 +117,33 @@ paths:
       responses:
         "200":
           description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Music'
         "204":
-          description: 検索結果が0件
+          $ref: '#/components/responses/NoContent'
         "401":
           $ref: '#/components/responses/Unauthorized'
-  /user:
-    post:
-      summary: ユーザー（管理者 & MC）を作成
-      tags:
-        - user
-      responses:
-        "200":
-          description: Success
   /user/login:
     # TODO: responsesで、Googleログインへの遷移URLを渡す
     get:
-      summary: ユーザー（管理者 & MC）ログイン
+      summary: ユーザー（管理者 & MC）ログイン（新規作成も）
       tags:
         - user
       responses:
         "200":
-          # TODO: URLを返す
           description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  redirect_uri:
+                    type: string
+                    description: Googleログインへの遷移URL
   /user/loggedInGoogle:
     # TODO: parametersでGoogleログイン後に帰ってきたクエリを渡す。responseでapi_tokenを返す
     post:
@@ -215,13 +220,99 @@ paths:
 components:
   # Reusable schemas (data models)
   schemas:
+    Music:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 音楽サービスで発行されるID
+        artists:
+          type: array
+          description: アーティスト
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: アーティスト名
+              id:
+                type: string
+                description: 音楽サービスで発行されるアーティストID
+        album:
+          type: object
+          description: アルバム
+          properties:
+            name:
+              type: string
+              description: アルバム名
+            jacket_url:
+              type: string
+              description: アルバムのジャケット画像のURL
+        name:
+          type: string
+          description: 曲名
+        duration:
+          type: integer
+          description: 曲の長さ（秒）
+      required:
+        - id
+        - artists
+        - album
+        - name
+        - duration
+    Room:
+      type: object
+      properties:
+        url_name:
+          type: string
+          description: URLで使用するID
+        room_name:
+          type: string
+          description: ルーム名
+        description:
+          type: string
+          description: ルームの説明
+        user_id:
+          type: string
+          description: ルームの作成者のユーザー（管理者 or MC）ID
+        created_at:
+          type: string
+          description: 作成日時
+        updated_at:
+          type: string
+          description: 更新日時
+      required:
+        - id
+        - url_name
+        - room_name
+        - user_id
+        - created_at
+        - updated_at
+    RoomWithMusic:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 内部のみで使用するルームのID
+        room:
+          $ref: '#/components/schemas/Room'
+        musics:
+          type: array
+          items:
+            $ref: '#/components/schemas/Music'
+      required:
+        - id
+        - room
+        - musics
     Error:
       type: object
       properties:
         code:
           type: string
+          description: エラーコード
         message:
           type: string
+          description: エラーメッセージ
       required:
         - code
         - message
