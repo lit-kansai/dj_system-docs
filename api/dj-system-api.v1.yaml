@@ -44,18 +44,13 @@ paths:
           $ref: '#/components/responses/NoContent'
         "401":
           $ref: '#/components/responses/Unauthorized'
-  /room/{roomID}:
+  /room/{roomId}:
     get:
       summary: ルーム個別情報表示
       tags:
         - room
       parameters:
-        - name: roomID
-          in: path
-          description: 必ず1つのルームIDを送信する
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/RoomId'
       responses:
         "200":
           description: Success
@@ -72,12 +67,7 @@ paths:
             schema:
               $ref: '#/components/schemas/Room'
       parameters:
-        - name: roomID
-          in: path
-          description: 必ず1つのルームIDを送信する
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/RoomId'
       responses:
         "200":
           description: Success
@@ -90,12 +80,7 @@ paths:
       tags:
         - room
       parameters:
-        - name: roomID
-          in: path
-          description: 必ず1つのルームIDを送信する
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/RoomId'
       responses:
         "200":
           description: Success
@@ -108,13 +93,13 @@ paths:
       summary: リクエスト送信
       tags:
         - room
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestMusic'
       parameters:
-        - name: roomID
-          in: path
-          description: 必ず1つのルームIDを送信する
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/RoomId'
       responses:
         "200":
           description: Success
@@ -172,12 +157,7 @@ paths:
       tags:
         - user
       parameters:
-        - name: userID
-          in: path
-          description: 必ず1つのユーザーIDを送信する
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/RoomId'
       responses:
         "200":
           description: Success
@@ -190,12 +170,7 @@ paths:
       tags:
         - user
       parameters:
-        - name: userID
-          in: path
-          description: 必ず1つのユーザーIDを送信する
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/RoomId'
       responses:
         "200":
           description: Success
@@ -208,12 +183,7 @@ paths:
       tags:
         - user
       parameters:
-        - name: userID
-          in: path
-          description: 必ず1つのユーザーIDを送信する
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/RoomId'
       responses:
         "204":
           $ref: '#/components/responses/NoContent'
@@ -314,6 +284,22 @@ components:
         - id
         - room
         - musics
+    RequestMusic:
+      type: object
+      properties:
+        musics:
+          type: array
+          items:
+            type: string
+            description: 音楽サービスで発行されるID
+        radio_name:
+          type: string
+          description: ラジオネーム
+        message:
+          type: string
+          description: メッセージ
+      required:
+        - musics
     Error:
       type: object
       properties:
@@ -327,8 +313,14 @@ components:
         - code
         - message
   # Reusable path, query, header and cookie parameters
-  # parameters:
-    # ...
+  parameters:
+    RoomId:
+      name: roomId
+      in: path
+      description: ルームのID（必ず1つのルームIDを送信する）
+      required: true
+      schema:
+        type: string
   # Security scheme definitions (see Authentication)
   # securitySchemes:
   #   ...
