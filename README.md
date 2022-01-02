@@ -13,6 +13,7 @@ Coming soon...
 
 - [API 設計](https://lit-kansai.github.io/dj_system-docs/api)
 - [DB 設計](https://lit-kansai.github.io/dj_system-docs/db/dj.svg)
+- [デザイン設計](https://lit-kansai.github.io/dj_system-docs/design)
 
 ## 💻 使用技術
 
