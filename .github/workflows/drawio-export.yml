@@ -26,6 +26,8 @@ jobs:
           format: svg
           transparent: false
           output: .
+          action-mode: all
+          remove-page-suffix: true
 
       - name: Get author and committer info from HEAD commit
         uses: rlespinasse/git-commit-data-action@v1.x
