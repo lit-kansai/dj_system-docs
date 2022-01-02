@@ -19,9 +19,10 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Export drawio files to asciidoctor and png files
+      - name: Export drawio files to svg files
         uses: rlespinasse/drawio-export-action@v2
         with:
+          path: db
           format: svg
           transparent: true
           output: db
