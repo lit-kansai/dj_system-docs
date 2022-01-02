@@ -16,7 +16,7 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
 
       - name: Export drawio files to asciidoctor and png files
-        uses: docker://rlespinasse/drawio-export:v3.x
+        uses: docker://rlespinasse/drawio-export:3.5.0
         with:
           args: --fileext adoc --folder drawio-assets --transparent --on-changes
 
