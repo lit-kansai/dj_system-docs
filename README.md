@@ -3,3 +3,7 @@ MC支援サービス「DJ System」の資料
 
 ## API　リファレンス
 [https://lit-kansai.github.io/dj_system-docs/api](https://lit-kansai.github.io/dj_system-docs/api)
+
+## DB設計
+
+[dj.svg](https://lit-kansai.github.io/dj_system-docs/db/dj.svg)
