@@ -4,6 +4,7 @@ info:
   version: '1.0'
   description: MC支援サービス「DJ System」用API
 servers:
+  - url: 'https://dj-system-api.herokuapp.com'
   - url: 'http://localhost:4567'
 tags:
   - name: room
