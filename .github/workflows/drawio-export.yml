@@ -26,6 +26,7 @@ jobs:
           format: svg
           transparent: false
           output: .
+          action-mode: all
 
       - name: Get author and committer info from HEAD commit
         uses: rlespinasse/git-commit-data-action@v1.x
