@@ -22,7 +22,7 @@ paths:
       security:
         - ApiTokenAuth: []
       requestBody:
-        description: created_atとupdated_atは自動設定
+        description: users / created_at / updated_atは自動設定
         content:
           application/json:
             schema:
