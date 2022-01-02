@@ -48,5 +48,5 @@ Coming soon...
 
 ## 🚀 実装計画
 
-- [] Apple Musicに対応
-- [] Youtube Musicに対応
+- [ ] Apple Musicに対応
+- [ ] Youtube Musicに対応
