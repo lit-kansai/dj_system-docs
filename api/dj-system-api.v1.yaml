@@ -114,6 +114,24 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         "404":
           $ref: '#/components/responses/NotFound'
+  /room/{roomId}/music:
+    get:
+      summary: ルーム内の音楽情報取得
+      tags:
+        - room
+      parameters:
+        - $ref: '#/components/parameters/RoomId'
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Music'
+        "404":
+          $ref: '#/components/responses/NotFound'
   /room/{roomID}/request:
     post:
       summary: リクエスト送信
