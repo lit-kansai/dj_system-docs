@@ -114,6 +114,42 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         "404":
           $ref: '#/components/responses/NotFound'
+  /room/{roomId}/musics:
+    get:
+      summary: ルーム内の音楽情報取得
+      tags:
+        - room
+      parameters:
+        - $ref: '#/components/parameters/RoomId'
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Music'
+        "404":
+          $ref: '#/components/responses/NotFound'
+  /room/{roomId}/letters:
+    get:
+      summary: ルーム内のお便り情報取得
+      tags:
+        - room
+      parameters:
+        - $ref: '#/components/parameters/RoomId'
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Letter'
+        "404":
+          $ref: '#/components/responses/NotFound'
   /room/{roomID}/request:
     post:
       summary: リクエスト送信
@@ -133,18 +169,16 @@ paths:
           $ref: '#/components/responses/NotFound'
   /music/search:
     get:
-      summary: 音楽リクエスト
+      summary: 音楽検索
       tags:
         - music
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                searchWord:
-                  type: string
-                  description: 検索ワード
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: 検索キーワード
       responses:
         "200":
           description: Success
@@ -321,22 +355,15 @@ components:
         - owner_user_id
         - display_id
         - name
-    RoomWithMusic:
+    Letter:
       type: object
       properties:
-        id:
+        radio_name:
           type: string
-          description: 内部のみで使用するルームのID
-        room:
-          $ref: '#/components/schemas/Room'
-        musics:
-          type: array
-          items:
-            $ref: '#/components/schemas/Music'
-      required:
-        - id
-        - room
-        - musics
+          description: ラジオネーム
+        message:
+          type: string
+          description: メッセージ
     RequestMusic:
       type: object
       properties:
