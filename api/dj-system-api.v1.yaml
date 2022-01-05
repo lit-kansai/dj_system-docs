@@ -132,6 +132,24 @@ paths:
                   $ref: '#/components/schemas/Music'
         "404":
           $ref: '#/components/responses/NotFound'
+  /room/{roomId}/letters:
+    get:
+      summary: ルーム内のお便り情報取得
+      tags:
+        - room
+      parameters:
+        - $ref: '#/components/parameters/RoomId'
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Letter'
+        "404":
+          $ref: '#/components/responses/NotFound'
   /room/{roomID}/request:
     post:
       summary: リクエスト送信
@@ -337,6 +355,15 @@ components:
         - owner_user_id
         - display_id
         - name
+    Letter:
+      type: object
+      properties:
+        radio_name:
+          type: string
+          description: ラジオネーム
+        message:
+          type: string
+          description: メッセージ
     RequestMusic:
       type: object
       properties:
