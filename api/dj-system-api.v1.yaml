@@ -133,18 +133,16 @@ paths:
           $ref: '#/components/responses/NotFound'
   /music/search:
     get:
-      summary: 音楽リクエスト
+      summary: 音楽検索
       tags:
         - music
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                searchWord:
-                  type: string
-                  description: 検索ワード
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: 検索キーワード
       responses:
         "200":
           description: Success
