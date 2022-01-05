@@ -321,22 +321,6 @@ components:
         - owner_user_id
         - display_id
         - name
-    RoomWithMusic:
-      type: object
-      properties:
-        id:
-          type: string
-          description: 内部のみで使用するルームのID
-        room:
-          $ref: '#/components/schemas/Room'
-        musics:
-          type: array
-          items:
-            $ref: '#/components/schemas/Music'
-      required:
-        - id
-        - room
-        - musics
     RequestMusic:
       type: object
       properties:
