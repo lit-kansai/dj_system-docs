@@ -305,31 +305,22 @@ components:
     Room:
       type: object
       properties:
-        url_name:
+        owner_user_id:
+          type: integer
+          description: オーナーのユーザーID(プレイリストを紐づけている人)
+        display_id:
           type: string
           description: URLで使用するID
-        room_name:
+        name:
           type: string
           description: ルーム名
         description:
           type: string
           description: ルームの説明
-        users:
-          type: array
-          description: ルームの作成者のユーザー（管理者 or MC）ID
-          items:
-            type: string
-        created_at:
-          type: string
-          description: 作成日時
-        updated_at:
-          type: string
-          description: 更新日時
       required:
-        - id
-        - url_name
-        - room_name
-        - user_id
+        - owner_user_id
+        - display_id
+        - name
     RoomWithMusic:
       type: object
       properties:
