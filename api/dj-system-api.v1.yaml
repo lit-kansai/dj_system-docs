@@ -198,6 +198,13 @@ paths:
       summary: ユーザー（管理者 & MC）ログイン（新規作成も）
       tags:
         - user
+      parameters:
+        - in: query
+          name: redirect_url
+          schema:
+            type: string
+          required: true
+          description: ログイン成功時のリダイレクトURL
       responses:
         "200":
           description: Success
@@ -215,6 +222,18 @@ paths:
       summary: Googleログイン後に呼び出す。クエリなどをサーバー側に渡す。
       tags:
         - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                  description: Googleから取得したユーザーを示すCode
+                redirect_url:
+                  type: string
+                  description: /user/loginで渡したredirect_urlと同じものを渡す（Google側での認証に必要なため）
       responses:
         "200":
           description: Success
