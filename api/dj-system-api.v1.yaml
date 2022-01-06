@@ -42,6 +42,8 @@ paths:
                     description: 作成したルームのMCページURL
         "401":
           $ref: '#/components/responses/Unauthorized'
+        "500":
+          $ref: '#/components/responses/InternalServerError'
   /room/all:
     get:
       summary: 全ルーム情報取得（管理可能なルームのみ）
@@ -58,8 +60,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Room'
-        "204":
-          $ref: '#/components/responses/NoContent'
+        "400":
+          $ref: '#/components/responses/BadRequest'
         "401":
           $ref: '#/components/responses/Unauthorized'
   /room/{roomId}:
@@ -76,6 +78,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Room'
+        "400":
+          $ref: '#/components/responses/BadRequest'
         "404":
           $ref: '#/components/responses/NotFound'
     put:
@@ -95,6 +99,10 @@ paths:
       responses:
         "200":
           description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
         "401":
           $ref: '#/components/responses/Unauthorized'
         "404":
@@ -130,6 +138,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Music'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
         "404":
           $ref: '#/components/responses/NotFound'
   /room/{roomId}/letters:
@@ -148,6 +158,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Letter'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
         "404":
           $ref: '#/components/responses/NotFound'
   /room/{roomID}/request:
@@ -165,8 +177,12 @@ paths:
       responses:
         "200":
           description: Success
+        "400":
+          $ref: '#/components/responses/BadRequest'
         "404":
           $ref: '#/components/responses/NotFound'
+        "500":
+          $ref: '#/components/responses/InternalServerError'
   /music/search:
     get:
       summary: 音楽検索
@@ -188,10 +204,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Music'
-        "204":
-          $ref: '#/components/responses/NoContent'
-        "401":
-          $ref: '#/components/responses/Unauthorized'
+        "400":
+          $ref: '#/components/responses/BadRequest'
   /user/login:
     # TODO: responsesで、Googleログインへの遷移URLを渡す
     get:
@@ -216,8 +230,9 @@ paths:
                   redirect_url:
                     type: string
                     description: Googleログインへの遷移URL
+        "400":
+          $ref: '#/components/responses/BadRequest'
   /user/loggedInGoogle:
-    # TODO: parametersでGoogleログイン後に帰ってきたクエリを渡す。
     post:
       summary: Googleログイン後に呼び出す。クエリなどをサーバー側に渡す。
       tags:
@@ -245,8 +260,9 @@ paths:
                   api_token:
                     type: string
                     description: APIトークン
+        "400":
+          $ref: '#/components/responses/BadRequest'
   /user/{userId}:
-    # TODO: headerのauthに、api_tokenを渡す
     get:
       summary: ユーザー（管理者 & MC）情報取得
       tags:
@@ -283,6 +299,10 @@ paths:
       responses:
         "200":
           description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
         "401":
           $ref: '#/components/responses/Unauthorized'
         "404":
@@ -312,6 +332,10 @@ paths:
       responses:
         "200":
           description: Success
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "404":
+          $ref: '#/components/responses/NotFound'
 components:
   # Reusable schemas (data models)
   schemas:
@@ -497,7 +521,7 @@ components:
               value:
                 code: "404"
                 message: "NotFound"
-    InternalServer:
+    InternalServerError:
       description: Not Found
       content:
         application/json:
@@ -507,7 +531,7 @@ components:
             NotFound Error:
               value:
                 code: "500"
-                message: "InternalServer"
+                message: "InternalServerError"
   # Reusable response headers
   # headers:
   #   ...
