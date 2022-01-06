@@ -20,7 +20,7 @@ paths:
       tags:
         - room
       security:
-        - ApiTokenAuth: []
+        - ApiToken: []
       requestBody:
         description: users / created_at / updated_atは自動設定
         content:
@@ -42,13 +42,15 @@ paths:
                     description: 作成したルームのMCページURL
         "401":
           $ref: '#/components/responses/Unauthorized'
+        "500":
+          $ref: '#/components/responses/InternalServerError'
   /room/all:
     get:
       summary: 全ルーム情報取得（管理可能なルームのみ）
       tags:
         - room
       security:
-        - ApiTokenAuth: []
+        - ApiToken: []
       responses:
         "200":
           description: Success
@@ -58,8 +60,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Room'
-        "204":
-          $ref: '#/components/responses/NoContent'
+        "400":
+          $ref: '#/components/responses/BadRequest'
         "401":
           $ref: '#/components/responses/Unauthorized'
   /room/{roomId}:
@@ -76,6 +78,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Room'
+        "400":
+          $ref: '#/components/responses/BadRequest'
         "404":
           $ref: '#/components/responses/NotFound'
     put:
@@ -83,7 +87,7 @@ paths:
       tags:
         - room
       security:
-        - ApiTokenAuth: []
+        - ApiToken: []
       requestBody:
         description: created_atとupdated_atは自動設定
         content:
@@ -95,6 +99,10 @@ paths:
       responses:
         "200":
           description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
         "401":
           $ref: '#/components/responses/Unauthorized'
         "404":
@@ -104,7 +112,7 @@ paths:
       tags:
         - room
       security:
-        - ApiTokenAuth: []
+        - ApiToken: []
       parameters:
         - $ref: '#/components/parameters/RoomId'
       responses:
@@ -119,6 +127,8 @@ paths:
       summary: ルーム内の音楽情報取得
       tags:
         - room
+      security:
+        - ApiToken: []
       parameters:
         - $ref: '#/components/parameters/RoomId'
       responses:
@@ -130,6 +140,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Music'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
         "404":
           $ref: '#/components/responses/NotFound'
   /room/{roomId}/letters:
@@ -137,6 +149,8 @@ paths:
       summary: ルーム内のお便り情報取得
       tags:
         - room
+      security:
+        - ApiToken: []
       parameters:
         - $ref: '#/components/parameters/RoomId'
       responses:
@@ -148,6 +162,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Letter'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
         "404":
           $ref: '#/components/responses/NotFound'
   /room/{roomID}/request:
@@ -165,8 +181,12 @@ paths:
       responses:
         "200":
           description: Success
+        "400":
+          $ref: '#/components/responses/BadRequest'
         "404":
           $ref: '#/components/responses/NotFound'
+        "500":
+          $ref: '#/components/responses/InternalServerError'
   /music/search:
     get:
       summary: 音楽検索
@@ -188,10 +208,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Music'
-        "204":
-          $ref: '#/components/responses/NoContent'
-        "401":
-          $ref: '#/components/responses/Unauthorized'
+        "400":
+          $ref: '#/components/responses/BadRequest'
   /user/login:
     # TODO: responsesで、Googleログインへの遷移URLを渡す
     get:
@@ -216,8 +234,9 @@ paths:
                   redirect_url:
                     type: string
                     description: Googleログインへの遷移URL
+        "400":
+          $ref: '#/components/responses/BadRequest'
   /user/loggedInGoogle:
-    # TODO: parametersでGoogleログイン後に帰ってきたクエリを渡す。
     post:
       summary: Googleログイン後に呼び出す。クエリなどをサーバー側に渡す。
       tags:
@@ -245,14 +264,15 @@ paths:
                   api_token:
                     type: string
                     description: APIトークン
+        "400":
+          $ref: '#/components/responses/BadRequest'
   /user/{userId}:
-    # TODO: headerのauthに、api_tokenを渡す
     get:
       summary: ユーザー（管理者 & MC）情報取得
       tags:
         - user
       security:
-        - ApiTokenAuth: []
+        - ApiToken: []
       parameters:
         - $ref: '#/components/parameters/UserId'
       responses:
@@ -271,7 +291,7 @@ paths:
       tags:
         - user
       security:
-        - ApiTokenAuth: []
+        - ApiToken: []
       parameters:
         - $ref: '#/components/parameters/UserId'
       requestBody:
@@ -283,6 +303,10 @@ paths:
       responses:
         "200":
           description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
         "401":
           $ref: '#/components/responses/Unauthorized'
         "404":
@@ -292,7 +316,7 @@ paths:
       tags:
         - user
       security:
-        - ApiTokenAuth: []
+        - ApiToken: []
       parameters:
         - $ref: '#/components/parameters/UserId'
       responses:
@@ -308,10 +332,14 @@ paths:
       tags:
         - user
       security:
-        - ApiTokenAuth: []
+        - ApiToken: []
       responses:
         "200":
           description: Success
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "404":
+          $ref: '#/components/responses/NotFound'
 components:
   # Reusable schemas (data models)
   schemas:
@@ -441,7 +469,7 @@ components:
         type: string
   # Security scheme definitions (see Authentication)
   securitySchemes:
-    ApiTokenAuth:
+    ApiToken:
       type: apiKey
       in: header
       name: api_token
@@ -453,24 +481,61 @@ components:
   responses:
     Success:
       description: Success
-    NoContent:
-      description: No Content
+    BadRequest:
+      description: Bad Request
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+          examples:
+            BadRequest Error:
+              value:
+                code: "400"
+                message: "Bad Request"
     Unauthorized:
       description: Unauthorized
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+          examples:
+            Unauthorized Error:
+              value:
+                code: "401"
+                message: "Unauthorized"
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            Forbidden Error:
+              value:
+                code: "403"
+                message: "Forbidden"
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            NotFound Error:
+              value:
+                code: "404"
+                message: "NotFound"
+    InternalServerError:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            NotFound Error:
+              value:
+                code: "500"
+                message: "InternalServerError"
   # Reusable response headers
   # headers:
   #   ...
