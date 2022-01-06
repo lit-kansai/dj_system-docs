@@ -453,24 +453,61 @@ components:
   responses:
     Success:
       description: Success
-    NoContent:
-      description: No Content
+    BadRequest:
+      description: Bad Request
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+          examples:
+            BadRequest Error:
+              value:
+                code: "400"
+                message: "Bad Request"
     Unauthorized:
       description: Unauthorized
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+          examples:
+            Unauthorized Error:
+              value:
+                code: "401"
+                message: "Unauthorized"
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            Forbidden Error:
+              value:
+                code: "403"
+                message: "Forbidden"
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            NotFound Error:
+              value:
+                code: "404"
+                message: "NotFound"
+    InternalServer:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            NotFound Error:
+              value:
+                code: "500"
+                message: "InternalServer"
   # Reusable response headers
   # headers:
   #   ...
