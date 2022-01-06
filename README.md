@@ -6,4 +6,4 @@ MC支援サービス「DJ System」の資料
 
 ## DB設計
 
-[dj.svg](https://lit-kansai.github.io/dj_system-docs/db/dj.svg)
+![](https://lit-kansai.github.io/dj_system-docs/db/dj.svg)
