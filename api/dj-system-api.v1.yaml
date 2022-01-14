@@ -526,7 +526,7 @@ components:
                 code: "404"
                 message: "NotFound"
     InternalServerError:
-      description: Not Found
+      description: Internal Server Error
       content:
         application/json:
           schema:
